@@ -1,0 +1,6 @@
+database:
+  hostname: 'localhost'
+  port: 6444
+  name: 'xenous'
+  password: 'xenous'
+  dbname: 'mydatabase'
