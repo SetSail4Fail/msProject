@@ -2,14 +2,21 @@ package createaccount
 
 import (
 	"bufio"
-	"context"
+	"database/sql"
 	"fmt"
 	"os"
 	"strings"
-	"github.com/jackc/pgx/v5/pgxpool"
+	"log"
+	"msProject/config"
 )
 
-func createAccont() {
+func createAccont(configPath string) {
+
+	cfg, err := config.NewConfig(configPath)
+	if err != nil {
+		log.Fatalf("Config error: %s", err)
+	}
+
 	inputReader := bufio.NewReader(os.Stdin)
 	insertQuery := "INSERT INTO accounts (name, password) VALUES ($1, $2)"
 
@@ -21,10 +28,10 @@ func createAccont() {
 	password, _ := inputReader.ReadString('\n')
 	password = strings.TrimSpace(password)
 
-
-	connStr := "postgres://xenous:xenous@localhost:6444/accounts"
-	db, err := pgxpool.New(context.Background(), connStr)
-	_, err = db.Exec(context.Background(), insertQuery, name, password)
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=mydatabase sslmode=disable",
+	cfg.DB.Host, cfg.DB.Port, cfg.DB.Name, cfg.DB.Password)
+	db, err := sql.Open("postgres", psqlInfo)
+	_, err = db.Exec(insertQuery, name, password)
 	if err != nil {
 		fmt.Printf("Error while creating account.")
 		return

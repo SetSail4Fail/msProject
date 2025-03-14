@@ -1,11 +1,12 @@
 package main
 
 import (
-	"msProject/internal"
-
+	"msProject/internal/app"
 	_ "github.com/lib/pq"
 )
 
+const configPath = "config/config.yaml"
+
 func main() {
-	internal.CreateTable()
+	app.Run(configPath)
 }

@@ -1,5 +1,5 @@
 database:
-  hostname: 'localhost'
+  host: 'localhost'
   port: 6444
   name: 'xenous'
   password: 'xenous'

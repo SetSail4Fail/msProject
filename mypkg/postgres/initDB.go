@@ -1,23 +1,22 @@
-package internal
+package postgres
 
 import (
 	"database/sql"
 	"fmt"
 	"log"
+	"msProject/config"
 )
 
-const (
-	host     = "localhost"
-	port     = 6444
-	user     = "xenous"
-	password = "xenous"
-	dbname   = "mydatabase"
-)
+func CreateTable(configPath string) {
 
-func CreateTable() {
-	// Подключение к PostgreSQL (к базе по умолчанию "postgres")
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=postgres sslmode=disable",
-		host, port, user, password)
+	cfg, err := config.NewConfig(configPath)
+	if err != nil {
+		log.Fatalf("Config error: %s", err)
+	}
+
+	// Подключение к PostgreSQL (к базе по умолчанию "mydatabase")
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=mydatabase sslmode=disable",
+		cfg.DB.Host, cfg.DB.Port, cfg.DB.Name, cfg.DB.Password)
 
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
@@ -27,7 +26,7 @@ func CreateTable() {
 
 	// Подключение к новой базе данных
 	psqlInfo = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		cfg.DB.Host, cfg.DB.Port, cfg.DB.Name, cfg.DB.Password, cfg.DB.DBname)
 
 	db, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
@@ -37,7 +36,7 @@ func CreateTable() {
 
 	// Создание таблицы (если она не существует)
 	_, err = db.Exec(`
-			CREATE TABLE IF NOT EXISTS users (
+			CREATE TABLE IF NOT EXISTS accounts (
 			id SERIAL PRIMARY KEY,
 			name TEXT NOT NULL,
 			email TEXT UNIQUE NOT NULL,
@@ -51,7 +50,7 @@ func CreateTable() {
 	log.Println("Table created successfully!")
 
 	// Вставка тестовых данных
-	insertUser(db, "HUI BASHOI", "bashoi@example.com")
+	insertUser(db, "Carl Galager", "email@example.com")
 }
 
 func insertUser(db *sql.DB, name, email string) {
