@@ -1,7 +1,8 @@
 package main
 
-import(
+import (
 	"msProject/mypkg/postgres"
+
 	_ "github.com/lib/pq"
 )
 

@@ -9,5 +9,5 @@ import (
 
 func Run(configPath string) {
 	postgres.CreateTable(configPath)
-	sql.CreateAcc(configPath)
+	account.CreateAcc(configPath)
 }

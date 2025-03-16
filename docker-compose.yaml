@@ -5,6 +5,7 @@ services:
     container_name: postgres_container2
     image: postgres:14
     environment:
+      POSTGRES_DB: "mydatabase"
       POSTGRES_USER: "xenous"
       POSTGRES_PASSWORD: "xenous"
     ports:
