@@ -1,4 +1,4 @@
-package createaccount
+package sql
 
 import (
 	"bufio"

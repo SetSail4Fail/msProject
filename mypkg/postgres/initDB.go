@@ -14,21 +14,11 @@ func CreateTable(configPath string) {
 		log.Fatalf("Config error: %s", err)
 	}
 
-	// Подключение к PostgreSQL (к базе по умолчанию "mydatabase")
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=mydatabase sslmode=disable",
-		cfg.DB.Host, cfg.DB.Port, cfg.DB.Name, cfg.DB.Password)
-
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		log.Fatalf("Unable to connect to PostgreSQL: %v\n", err)
-	}
-	defer db.Close()
-
 	// Подключение к новой базе данных
-	psqlInfo = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DB.Host, cfg.DB.Port, cfg.DB.Name, cfg.DB.Password, cfg.DB.DBname)
 
-	db, err = sql.Open("postgres", psqlInfo)
+	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatalf("Unable to connect to the new database: %v\n", err)
 	}
