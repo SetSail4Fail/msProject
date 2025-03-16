@@ -37,8 +37,9 @@ func CreateTable(configPath string) {
 	// Создание таблицы (если она не существует)
 	_, err = db.Exec(`
 			CREATE TABLE IF NOT EXISTS accounts (
-			id SERIAL PRIMARY KEY,
+			id uuid PRIMARY KEY,
 			name TEXT NOT NULL,
+			password TEXT NOT NULL,
 			email TEXT UNIQUE NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 			);
@@ -48,22 +49,8 @@ func CreateTable(configPath string) {
 	}
 
 	log.Println("Table created successfully!")
-
-	// Вставка тестовых данных
-	insertUser(db, "Carl Galager", "email@example.com")
 }
 
-func insertUser(db *sql.DB, name, email string) {
-	query := `INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id`
-
-	var id int
-	err := db.QueryRow(query, name, email).Scan(&id)
-	if err != nil {
-		log.Fatalf("Unable to insert user: %v\n", err)
-	}
-
-	log.Printf("Inserted user with ID: %d\n", id)
-}
 
 // import (
 // 	"context"
