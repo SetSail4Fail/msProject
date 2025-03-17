@@ -42,34 +42,3 @@ func CreateTable(configPath string) {
 
 	log.Println("Table created successfully!")
 }
-
-
-// import (
-// 	"context"
-// 	"fmt"
-
-// 	"github.com/jackc/pgx/v5/pgxpool"
-// )
-
-// func InitDB() {
-// 	connStr := "host=localhost port=6444 user=xenous password=xenous dbname=xenous sslmode=disable"
-// 	db, err := pgxpool.New(context.Background(), connStr)
-// 	if err != nil {
-// 		fmt.Println("Connection error.")
-// 	} else {
-// 		fmt.Println("Connect to Database - SUCCESS.")
-// 	}
-
-// 	createTableQuery := `
-// 		CREATE TABLE IF NOT EXISTS accounts (
-// 			id uuid PRIMARY KEY,
-// 			name text NOT NULL,
-// 			password text NOT NULL
-// 		);
-// 	`
-// 	_, err = db.Exec(context.Background(), createTableQuery)
-// 	if err != nil {
-// 		fmt.Printf(err.Error())
-// 		return
-// 	}
-// }
