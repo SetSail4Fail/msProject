@@ -14,7 +14,6 @@ func CreateTable(configPath string) {
 		log.Fatalf("Config error: %s", err)
 	}
 
-
 	// Подключение к новой базе данных
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DB.Host, cfg.DB.Port, cfg.DB.Name, cfg.DB.Password, cfg.DB.DBname)

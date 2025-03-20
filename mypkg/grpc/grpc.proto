@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package main;
+
+option go_package = "/grpcGenerated";
+
+service Greeter {
+  rpc createAcc (UserInputRequest) returns (Reply) {}
+}
+
+message UserInputRequest {
+  string name = 1; //любые названия переменных = очередь
+  string password = 2;
+  string email = 3;
+}
+
+message Reply {
+  string message = 1; //аутпут
+}
