@@ -14,7 +14,6 @@ type server struct {
 	gen.UnimplementedGreeterServer 
 }
 
-
 func (s *server) CreateAcc(ctx context.Context, in *gen.UserInputRequest) (*gen.Reply, error) {
 	return &gen.Reply{Message: "Hello, " + in.GetName() + ". Your account successfully created."}, nil
 }

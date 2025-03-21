@@ -1,13 +1,17 @@
 package app
 
 import (
-	"msProject/mypkg/postgres"
 	"msProject/mypkg/grpc"
+	"msProject/mypkg/postgres"
 
 	_ "github.com/lib/pq"
 )
 
 func Run(configPath string) {
-	postgres.CreateTable(configPath)
+	CreateDB := postgres.TableCfg{}
+
+	CreateDB.DbConnect(configPath)
+	CreateDB.CreateTable(configPath)
+	
 	grpc.CreateTCP()
 }
