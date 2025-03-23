@@ -5,8 +5,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const configPath = "config/config.yaml"
+const ConfigPath = "config/config.yaml"
 
 func main() {
-	app.Run(configPath)
+	app.Run(ConfigPath)
 }

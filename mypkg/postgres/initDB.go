@@ -11,7 +11,7 @@ type TableCfg struct {
 	db *sql.DB
 }
 
-func (d *TableCfg) CreateTable(configPath string) {
+func (d *TableCfg) CreateTable(ConfigPath string) {
 	createTableQuery := `
 			CREATE TABLE IF NOT EXISTS accounts (
 			id uuid PRIMARY KEY,
@@ -29,8 +29,8 @@ func (d *TableCfg) CreateTable(configPath string) {
 	log.Println("Table created successfully!")
 }
 
-func (repo *TableCfg) DbConnect(configPath string) {
-	cfg, err := config.NewConfig(configPath)
+func (repo *TableCfg) DbConnect(ConfigPath string) {
+	cfg, err := config.NewConfig(ConfigPath)
 	if err != nil {
 		log.Fatalf("Config error: %s", err)
 	}

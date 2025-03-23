@@ -8,20 +8,24 @@ import (
 )
 
 type CreateAccRequest struct {
-	name     string
-	password string
-	email    string
+	Name     string
+	Password string
+	Email    string
 }
 
-func CreateAcc(configPath string, CreateAccRequest CreateAccRequest) {
-	insertQuery := "INSERT INTO accounts (id, name, password, email) VALUES ($1, $2, $3, $4)"
+func CreateAcc(ConfigPath string, CreateAccRequest CreateAccRequest) {
+	InsertQuery := "INSERT INTO accounts (id, name, password, email) VALUES ($1, $2, $3, $4)"
+	log.Println(CreateAccRequest)
 
-	id := uuid.New()
+	id, err := uuid.NewUUID()
+	if err != nil {
+		log.Fatalf("Id generation err", err)
+	}
 
 	CreateDB := postgres.TableCfg{}
-	CreateDB.DbConnect(configPath)
+	CreateDB.DbConnect(ConfigPath)
 
-	_, err := CreateDB.GetDB().Exec(insertQuery, id, CreateAccRequest.name, CreateAccRequest.password, CreateAccRequest.email)
+	_, err = CreateDB.GetDB().Exec(InsertQuery, id, CreateAccRequest.Name, CreateAccRequest.Password, CreateAccRequest.Email)
 	if err != nil {
 		log.Printf("Error while creating account.", err)
 		return

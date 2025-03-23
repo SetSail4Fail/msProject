@@ -7,11 +7,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func Run(configPath string) {
+func Run(ConfigPath string) {
 	CreateDB := postgres.TableCfg{}
 
-	CreateDB.DbConnect(configPath)
-	CreateDB.CreateTable(configPath)
+	CreateDB.DbConnect(ConfigPath)
+	CreateDB.CreateTable(ConfigPath)
 	
 	grpc.CreateTCP()
 }
