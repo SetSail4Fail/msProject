@@ -12,6 +12,6 @@ func Run(ConfigPath string) {
 
 	CreateDB.DbConnect(ConfigPath)
 	CreateDB.CreateTable(ConfigPath)
-	
+
 	grpc.CreateTCP()
 }

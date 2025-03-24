@@ -2,8 +2,10 @@ package grpc
 
 import (
 	"context"
-	gen "msProject/mypkg/grpc/grpcGenerated"
 	"log"
+	"msProject/internal/sql/account"
+	gen "msProject/mypkg/grpc/grpcGenerated"
+	"msProject/mypkg/postgres"
 	"net"
 
 	"google.golang.org/grpc"
@@ -14,7 +16,18 @@ type server struct {
 	gen.UnimplementedGreeterServer 
 }
 
+const ConfigPath = "config/config.yaml"
+
 func (s *server) CreateAcc(ctx context.Context, in *gen.UserInputRequest) (*gen.Reply, error) {
+	CreateDB := postgres.TableCfg{}
+	CreateDB.DbConnect(ConfigPath)
+
+	req := account.CreateAccRequest{
+        Name:     in.GetName(),
+        Password: in.GetPassword(),
+        Email:    in.GetEmail(),
+    }
+	account.CreateAcc(ConfigPath, req)
 	return &gen.Reply{Message: "Hello, " + in.GetName() + ". Your account successfully created."}, nil
 }
 

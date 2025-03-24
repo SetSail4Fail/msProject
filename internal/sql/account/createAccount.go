@@ -15,8 +15,8 @@ type CreateAccRequest struct {
 
 func CreateAcc(ConfigPath string, CreateAccRequest CreateAccRequest) {
 	InsertQuery := "INSERT INTO accounts (id, name, password, email) VALUES ($1, $2, $3, $4)"
-	log.Println(CreateAccRequest)
-
+	log.Println("Log of Create acc", CreateAccRequest)
+	
 	id, err := uuid.NewUUID()
 	if err != nil {
 		log.Fatalf("Id generation err", err)
