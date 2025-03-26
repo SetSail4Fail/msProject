@@ -2,6 +2,7 @@ package account
 
 import (
 	"log"
+	"msProject/config"
 	"msProject/mypkg/postgres"
 
 	"github.com/google/uuid"
@@ -13,7 +14,7 @@ type CreateAccRequest struct {
 	Email    string
 }
 
-func CreateAcc(ConfigPath string, CreateAccRequest CreateAccRequest) {
+func CreateAcc(cfg *config.Config, CreateAccRequest CreateAccRequest) {
 	InsertQuery := "INSERT INTO accounts (id, name, password, email) VALUES ($1, $2, $3, $4)"
 	log.Println("Log of Create acc", CreateAccRequest)
 	
@@ -23,7 +24,7 @@ func CreateAcc(ConfigPath string, CreateAccRequest CreateAccRequest) {
 	}
 
 	CreateDB := postgres.TableCfg{}
-	CreateDB.DbConnect(ConfigPath)
+	CreateDB.DbConnect(cfg)
 
 	_, err = CreateDB.GetDB().Exec(InsertQuery, id, CreateAccRequest.Name, CreateAccRequest.Password, CreateAccRequest.Email)
 	if err != nil {

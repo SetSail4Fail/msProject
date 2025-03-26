@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"log"
+	"msProject/config"
 	"msProject/internal/sql/account"
 	gen "msProject/mypkg/grpc/grpcGenerated"
 	"msProject/mypkg/postgres"
@@ -19,15 +20,19 @@ type server struct {
 const ConfigPath = "config/config.yaml"
 
 func (s *server) CreateAcc(ctx context.Context, in *gen.UserInputRequest) (*gen.Reply, error) {
+	cfg, err := config.NewConfig(ConfigPath)
+	if err != nil {
+		log.Fatalf("Config error: %s", err)
+	}
 	CreateDB := postgres.TableCfg{}
-	CreateDB.DbConnect(ConfigPath)
+	CreateDB.DbConnect(cfg)
 
 	req := account.CreateAccRequest{
         Name:     in.GetName(),
         Password: in.GetPassword(),
         Email:    in.GetEmail(),
     }
-	account.CreateAcc(ConfigPath, req)
+	account.CreateAcc(cfg, req)
 	return &gen.Reply{Message: "Hello, " + in.GetName() + ". Your account successfully created."}, nil
 }
 
