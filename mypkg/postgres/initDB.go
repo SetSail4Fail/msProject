@@ -10,9 +10,7 @@ import (
 type TableCfg struct {
 	db *sql.DB
 }
-
-func (d *TableCfg) CreateTable(cfg *config.Config) {
-	createTableQuery := `
+	var createTableQuery = `
 			CREATE TABLE IF NOT EXISTS accounts (
 			id uuid PRIMARY KEY,
 			name TEXT NOT NULL,
@@ -21,6 +19,8 @@ func (d *TableCfg) CreateTable(cfg *config.Config) {
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 			);
 	`
+func (d *TableCfg) CreateTable(cfg *config.Config) {
+
 	_, err := d.db.Exec(createTableQuery)
 	if err != nil {
 		log.Fatalf("Unable to create table: %v\n", err)
