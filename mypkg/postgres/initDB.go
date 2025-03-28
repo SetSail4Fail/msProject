@@ -10,6 +10,11 @@ import (
 type TableCfg struct {
 	db *sql.DB
 }
+
+type CfgStruct struct{
+	cfg *config.Config
+}
+
 	var createTableQuery = `
 			CREATE TABLE IF NOT EXISTS accounts (
 			id uuid PRIMARY KEY,
@@ -27,6 +32,14 @@ func (d *TableCfg) CreateTable(cfg *config.Config) {
 	}
 
 	log.Println("Table created successfully!")
+}
+
+func CfgParse(ConfigPath string) (cfg *config.Config){
+	cfg, err := config.NewConfig(ConfigPath)
+	if err != nil {
+		log.Fatalf("Config error: %s", err)
+	}
+	return cfg
 }
 
 func (repo *TableCfg) DbConnect(cfg *config.Config) {
