@@ -10,6 +10,5 @@ import (
 const ConfigPath = "config/config.yaml"
 
 func main() {
-	cfg := postgres.CfgParse(ConfigPath)
-	app.Run(cfg)
+	app.Run(postgres.CfgParse(ConfigPath))
 }
