@@ -23,10 +23,9 @@ func CreateAcc(cfg *config.Config, CreateAccRequest CreateAccRequest) {
 		log.Fatalf("Id generation err", err)
 	}
 
-	CreateDB := postgres.TableCfg{}
-	CreateDB.DbConnect(cfg)
+	db := postgres.DbConnect(cfg)
 
-	_, err = CreateDB.GetDB().Exec(InsertQuery, id, CreateAccRequest.Name, CreateAccRequest.Password, CreateAccRequest.Email)
+	_, err = db.Exec(InsertQuery, id, CreateAccRequest.Name, CreateAccRequest.Password, CreateAccRequest.Email)
 	if err != nil {
 		log.Printf("Error while creating account.", err)
 		return

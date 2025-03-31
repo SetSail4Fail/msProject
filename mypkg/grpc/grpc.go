@@ -24,8 +24,7 @@ func (s *server) CreateAcc(ctx context.Context, in *gen.UserInputRequest) (*gen.
 	if err != nil {
 		log.Fatalf("Config error: %s", err)
 	}
-	CreateDB := postgres.TableCfg{}
-	CreateDB.DbConnect(cfg)
+	postgres.DbConnect(cfg)
 
 	req := account.CreateAccRequest{
         Name:     in.GetName(),

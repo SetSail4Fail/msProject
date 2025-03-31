@@ -9,10 +9,8 @@ import (
 )
 
 func Run(cfg *config.Config) {
-	CreateDB := postgres.TableCfg{}
-
-	CreateDB.DbConnect(cfg)
-	CreateDB.CreateTable(cfg)
+	postgres.DbConnect(cfg)
+	postgres.CreateTable(cfg)
 
 	grpc.CreateTCP()
 }

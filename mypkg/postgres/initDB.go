@@ -7,14 +7,6 @@ import (
 	"msProject/config"
 )
 
-type TableCfg struct {
-	db *sql.DB
-}
-
-type CfgStruct struct{
-	cfg *config.Config
-}
-
 	var createTableQuery = `
 			CREATE TABLE IF NOT EXISTS accounts (
 			id uuid PRIMARY KEY,
@@ -24,9 +16,9 @@ type CfgStruct struct{
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 			);
 	`
-func (d *TableCfg) CreateTable(cfg *config.Config) {
-
-	_, err := d.db.Exec(createTableQuery)
+func CreateTable(cfg *config.Config) {
+	db := DbConnect(cfg)
+	_, err := db.Exec(createTableQuery)
 	if err != nil {
 		log.Fatalf("Unable to create table: %v\n", err)
 	}
@@ -42,19 +34,14 @@ func CfgParse(ConfigPath string) (cfg *config.Config){
 	return cfg
 }
 
-func (repo *TableCfg) DbConnect(cfg *config.Config) {
+func DbConnect(cfg *config.Config) (db *sql.DB){
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DB.Host, cfg.DB.Port, cfg.DB.Name, cfg.DB.Password, cfg.DB.DBname)
 
 	db, err := sql.Open("postgres", psqlInfo)
 
-	repo.db = db
-
 	if err != nil {
 		log.Fatalf("Unable to connect to the new database: %v\n", err)
 	}
-}
-
-func (acc *TableCfg) GetDB() *sql.DB {
-	return acc.db
+	return db
 }
