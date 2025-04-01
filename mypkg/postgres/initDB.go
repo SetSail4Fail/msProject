@@ -13,6 +13,7 @@ import (
 			name TEXT NOT NULL,
 			password TEXT NOT NULL,
 			email TEXT UNIQUE NOT NULL,
+			balance INT NULL DEFAULT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 			);
 	`
