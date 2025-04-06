@@ -4,6 +4,8 @@ import (
 	"log"
 	"msProject/config"
 	"msProject/mypkg/postgres"
+
+	"github.com/google/uuid"
 )
 
 type FindAcc struct {
@@ -11,7 +13,11 @@ type FindAcc struct {
 	Password string
 }
 
-func FindAccountID(cfg *config.Config, FindAcc FindAcc) (uuid string) {
+type GetUserStr struct{
+	Uuid uuid.UUID
+}
+
+func (*GetUserStr) FindAccountID(cfg *config.Config, FindAcc FindAcc) (uuid string) {
 	db := postgres.DbConnect(cfg)
 
 	query := `
