@@ -8,6 +8,20 @@ service Greeter {
   rpc createAcc (UserInputRequest) returns (Reply) {}
 }
 
+service FindUser {
+  rpc FindAccountID (UserNameInput) returns (ReplyName) {}
+}
+
+message UserNameInput {
+  string name = 1; 
+  string password = 2;
+}
+
+message ReplyName {
+  string message = 1;
+}
+
+
 message UserInputRequest {
   string name = 1; //любые названия переменных = очередь
   string password = 2;

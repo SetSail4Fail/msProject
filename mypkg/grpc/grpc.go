@@ -35,6 +35,9 @@ func (s *server) CreateAcc(ctx context.Context, in *gen.UserInputRequest) (*gen.
 	return &gen.Reply{Message: "Hello, " + in.GetName() + ". Your account successfully created."}, nil
 }
 
+func (d* server) FindAccountID(ctx context.Context) {
+	
+}
 
 
 func CreateTCP() {

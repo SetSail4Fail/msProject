@@ -13,10 +13,6 @@ type DepositRequest struct {
 	Uuid  uuid.UUID
 }
 
-type depositStr struct{
-	
-}
-
 func deposit(cfg *config.Config, DepositRequest DepositRequest) {
 	InsertQuery := "UPDATE accounts SET balance = balance + $1 WHERE id = $2 VALUES ($1, $2)"
 	db := postgres.DbConnect(cfg)

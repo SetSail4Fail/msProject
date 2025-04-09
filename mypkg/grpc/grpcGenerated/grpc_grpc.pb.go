@@ -119,3 +119,105 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "grpc.proto",
 }
+
+const (
+	FindUser_FindAccountID_FullMethodName = "/main.FindUser/FindAccountID"
+)
+
+// FindUserClient is the client API for FindUser service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type FindUserClient interface {
+	FindAccountID(ctx context.Context, in *UserNameInput, opts ...grpc.CallOption) (*ReplyName, error)
+}
+
+type findUserClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewFindUserClient(cc grpc.ClientConnInterface) FindUserClient {
+	return &findUserClient{cc}
+}
+
+func (c *findUserClient) FindAccountID(ctx context.Context, in *UserNameInput, opts ...grpc.CallOption) (*ReplyName, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReplyName)
+	err := c.cc.Invoke(ctx, FindUser_FindAccountID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// FindUserServer is the server API for FindUser service.
+// All implementations must embed UnimplementedFindUserServer
+// for forward compatibility.
+type FindUserServer interface {
+	FindAccountID(context.Context, *UserNameInput) (*ReplyName, error)
+	mustEmbedUnimplementedFindUserServer()
+}
+
+// UnimplementedFindUserServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedFindUserServer struct{}
+
+func (UnimplementedFindUserServer) FindAccountID(context.Context, *UserNameInput) (*ReplyName, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindAccountID not implemented")
+}
+func (UnimplementedFindUserServer) mustEmbedUnimplementedFindUserServer() {}
+func (UnimplementedFindUserServer) testEmbeddedByValue()                  {}
+
+// UnsafeFindUserServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FindUserServer will
+// result in compilation errors.
+type UnsafeFindUserServer interface {
+	mustEmbedUnimplementedFindUserServer()
+}
+
+func RegisterFindUserServer(s grpc.ServiceRegistrar, srv FindUserServer) {
+	// If the following call pancis, it indicates UnimplementedFindUserServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&FindUser_ServiceDesc, srv)
+}
+
+func _FindUser_FindAccountID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserNameInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FindUserServer).FindAccountID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FindUser_FindAccountID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FindUserServer).FindAccountID(ctx, req.(*UserNameInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// FindUser_ServiceDesc is the grpc.ServiceDesc for FindUser service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var FindUser_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "main.FindUser",
+	HandlerType: (*FindUserServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "FindAccountID",
+			Handler:    _FindUser_FindAccountID_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "grpc.proto",
+}
